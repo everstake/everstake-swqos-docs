@@ -15,7 +15,7 @@ fn main() {
     let solana_client = RpcClient::new("https://api.mainnet-beta.solana.com"); 
 
     // TODO: use one of RESOURCES.md EverSender RPC Endpoints
-    let ever_sender_client = RpcClient::new("https://fra-eversender.everstake.one");
+    let ever_sender_client = RpcClient::new("https://fra-swqos.everstake.one");
 
     // TODO: use your keypair file path
     let sender = read_keypair_file("~/.config/solana/id.json").unwrap(); 

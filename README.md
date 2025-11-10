@@ -71,8 +71,8 @@ cargo run --bin quic
 ```
 
 **Important:**
-- The RPC must include a special flag to send all transactions to a single leader instead of following the leader schedule:
-  --rpc-send-transaction-tpu-peer `SocketAddr`, where `SocketAddr` - [EverSender Frankfurt QUIC endpoint](RESOURCES.md)
+- The RPC node must include a special flag to send all transactions to a single leader instead of following the leader schedule:
+  --rpc-send-transaction-tpu-peer `SocketAddr`, where `SocketAddr` - [EverSender QUIC endpoint](RESOURCES.md)
   For RPC version 2.3 and above the --use-connection-cache flag must also be specified, since the new TPU client is not compatible with the SWQoS connection.
 - For production use, you must configure the correct EverSender QUIC endpoint in the example code.
 - You must authorize your pubkey to connect to EverSender via Quic. 

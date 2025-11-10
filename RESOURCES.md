@@ -12,10 +12,33 @@
 - `GDnz7cAA7hKEFmDyrk6mz3drybHWc3Gn14y9LCsvvtjE`
 
 **EverSender RPC Endpoints**
-- `https://fra-eversender.everstake.one`
+- **Main Cloudflare**
+  - `https://main-swqos.everstake.one`
+  - `http://main-swqos.everstake.one`
+- **FRA.**
+  - `https://fra-swqos.everstake.one`
+	- `http://fra-swqos.everstake.one`
+
+- **NY.**
+	- `https://ny-swqos.everstake.one`
+	- `http://ny-swqos.everstake.one`
+
+- **TYO.**
+	- `https://tyo-swqos.everstake.one`
+  - `http://tyo-swqos.everstake.one`
+
+- **AMS.**
+	- `https://ams-swqos.everstake.one`
+  - `http://ams-swqos.everstake.one`
+**Important**: Always use the correct protocol (http/https) for the appropriate port. For example, port 443 only works with HTTPS.
 
 **Min Lamports**
 - `500000`
+
+**Special RPC Node Flag**
+To send all transactions to a single leader (instead of following the leader schedule), the RPC node must include:
+`--rpc-send-transaction-tpu-peer <SocketAddr>`
+where `<SocketAddr>` is one of the EverSender QUIC endpoints listed below.
 
 # QUIC
 **EverSender Quic Endpoint**
@@ -23,4 +46,3 @@
 - Tokio: `208.91.107.171:11809`
 - Amsterdam: `74.118.140.197:11809`
 - NewYork: `64.130.59.154:11809`
-
