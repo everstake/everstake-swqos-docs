@@ -1,4 +1,4 @@
-# SWQoS Client
+# Everstake SWQoS Client
 
 Everstake SWQoS is a low-latency transaction relay that supports two submission modes:
 - **RPC**: Submit signed Solana transactions via a standard JSON-RPC interface.
