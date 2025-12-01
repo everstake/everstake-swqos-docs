@@ -866,7 +866,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "eversake-swqos-docs"
+name = "everstake-swqos-docs"
 version = "0.1.0"
 dependencies = [
  "anyhow",

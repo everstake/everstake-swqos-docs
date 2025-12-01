@@ -53,6 +53,8 @@ The Everstake SWQoS QUIC endpoint offers a direct, low-latency path for submitti
  - The QUIC path provides lower latency compared to RPC.
  - You must authorize your pubkey to connect to Everstake SWQoS via Quic.
 
+ **Connection Rate Limit:** Each authorized client is limited to 8 QUIC connections per minute. Please ensure your integration respects this limit to avoid connection errors or temporary blocks.
+
 ### How it works
 1. You build and sign a Solana transaction in your client.
 3. You establish a QUIC connection to an [Everstake SWQoS QUIC](RESOURCES.md) endpoint after we whitelist your pubkey. 
@@ -76,4 +78,3 @@ cargo run --bin quic
   For RPC version 2.3 and above the --use-connection-cache flag must also be specified, since the new TPU client is not compatible with the SWQoS connection.
 - For production use, you must configure the correct Everstake SWQoS QUIC endpoint in the example code.
 - You must authorize your pubkey to connect to Everstake SWQoS via Quic. 
-
