@@ -52,6 +52,7 @@ The Everstake SWQoS QUIC endpoint offers a direct, low-latency path for submitti
  - No API key required.
  - The QUIC path provides lower latency compared to RPC.
  - You must authorize your pubkey to connect to Everstake SWQoS via Quic.
+ - **Keep-Alive:** The connection has a keep-alive interval of 10 seconds.
 
  **Connection Rate Limit:** Each authorized client is limited to 8 QUIC connections per minute. Please ensure your integration respects this limit to avoid connection errors or temporary blocks.
 
