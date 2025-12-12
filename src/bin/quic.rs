@@ -49,13 +49,14 @@ impl QuicClient {
 
     // Send a transaction via quic using a unidirectional stream
     pub async fn send_transaction(&self, transaction: &Transaction) -> Result<()> {
+        let signature = transaction.signatures.first().expect("Transaction must have at least one signature");
         let serialized_tx = bincode::serialize(transaction)?;
 
         let mut send_stream = self.connection.open_uni().await?;
         send_stream.write_all(&serialized_tx).await?;
         send_stream.finish()?;
 
-        println!("Transaction has been sent");
+        println!("Transaction {signature:?} has been sent");
         Ok(())
     }
 }
@@ -80,7 +81,7 @@ async fn main() -> Result<()> {
     // To establish a connection, use the keypair whose pubkey you previously authorized in our service.
     let everstake_swqos_authorized_keypair = read_keypair_file("~/.config/solana/id.json")
         .map_err(|err| anyhow!("failed to read authorized keypair: {err}"))?;
-
+    
     let solana_client = RpcClient::new("https://api.mainnet-beta.solana.com");
     let transaction = create_transaction(&solana_client, &everstake_swqos_authorized_keypair)?;
 

@@ -16,6 +16,7 @@ The Everstake SWQoS RPC endpoint is a proxy for sending signed Solana transactio
 **Key points:**
  - No API key required.
  - Your transaction must include a “transfer” instruction with [Min Lamports](RESOURCES.md) to one of these Pubkeys: [Tip Payment Accounts](RESOURCES.md). Without this instruction, your transaction will be dropped.
+ - Please do not add the tip address to the AddressLookupTable.
  - The endpoint for the Everstake SWQoS RPC is listed in [RPC Endpoints](RESOURCES.md).
 
 ### How it works
@@ -52,6 +53,7 @@ The Everstake SWQoS QUIC endpoint offers a direct, low-latency path for submitti
  - No API key required.
  - The QUIC path provides lower latency compared to RPC.
  - You must authorize your pubkey to connect to Everstake SWQoS via Quic.
+ - **Keep-Alive:** The connection has a keep-alive interval of 10 seconds.
 
  **Connection Rate Limit:** Each authorized client is limited to 8 QUIC connections per minute. Please ensure your integration respects this limit to avoid connection errors or temporary blocks.
 
