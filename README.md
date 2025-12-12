@@ -16,6 +16,7 @@ The Everstake SWQoS RPC endpoint is a proxy for sending signed Solana transactio
 **Key points:**
  - No API key required.
  - Your transaction must include a “transfer” instruction with [Min Lamports](RESOURCES.md) to one of these Pubkeys: [Tip Payment Accounts](RESOURCES.md). Without this instruction, your transaction will be dropped.
+ - Please do not add the tip address to the AddressLookupTable.
  - The endpoint for the Everstake SWQoS RPC is listed in [RPC Endpoints](RESOURCES.md).
 
 ### How it works
