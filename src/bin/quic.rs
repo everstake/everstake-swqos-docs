@@ -12,6 +12,7 @@ use solana_sdk::{
 };
 use solana_system_interface::instruction;
 use solana_tls_utils::{new_dummy_x509_certificate, SkipServerVerification};
+use solana_perf::packet::PACKET_DATA_SIZE;
 
 const ALPN_SWQOS_TX_PROTOCOL: &[&[u8]] = &[b"solana-tpu"];
 
@@ -47,10 +48,19 @@ impl QuicClient {
         Ok(Self { _endpoint: endpoint, connection })
     }
 
-    // Send a transaction via quic using a unidirectional stream
+    /// Send a transaction via quic using a unidirectional stream.
+    /// Returns an error if the serialized transaction exceeds PACKET_DATA_SIZE.
     pub async fn send_transaction(&self, transaction: &Transaction) -> Result<()> {
         let signature = transaction.signatures.first().expect("Transaction must have at least one signature");
         let serialized_tx = bincode::serialize(transaction)?;
+
+        if serialized_tx.len() > PACKET_DATA_SIZE {
+            return Err(anyhow!(
+                "Transaction size {} exceeds maximum allowed size {}",
+                serialized_tx.len(),
+                PACKET_DATA_SIZE
+            ));
+        }
 
         let mut send_stream = self.connection.open_uni().await?;
         send_stream.write_all(&serialized_tx).await?;
