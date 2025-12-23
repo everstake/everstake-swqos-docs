@@ -1,7 +1,7 @@
 //This is the minimum working way to send a transaction to Everstake SWQoS service. 
 //If you want to improve transaction inclusion - increase priority-fee, introduce your own retry logic
 use {
-    solana_client::{rpc_client::RpcClient},
+    solana_client::rpc_client::RpcClient,
     solana_sdk::{
         signature::{Signer, read_keypair_file},
         message::Message,
@@ -9,6 +9,7 @@ use {
         pubkey,
     },
     solana_system_interface::instruction,
+    solana_perf::packet::PACKET_DATA_SIZE,
 };
 
 fn main() {
@@ -35,6 +36,16 @@ fn main() {
     let recent_blockhash = solana_client.get_latest_blockhash().unwrap();
     let transaction = Transaction::new(&[&sender], message, recent_blockhash);
 
+    // Validate transaction size before sending
+    let serialized_tx = bincode::serialize(&transaction).expect("Failed to serialize transaction");
+    if serialized_tx.len() > PACKET_DATA_SIZE {
+        eprintln!(
+            "Transaction size {} exceeds maximum allowed size {}",
+            serialized_tx.len(),
+            PACKET_DATA_SIZE
+        );
+        return;
+    }
 
     match everstake_swqos_client.send_transaction(&transaction) {
         Ok(signature) => println!("Transaction with signature: {} was sent successfully", signature),
