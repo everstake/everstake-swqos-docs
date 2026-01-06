@@ -18,7 +18,11 @@ The Everstake SWQoS RPC endpoint is a proxy for sending signed Solana transactio
  - Your transaction must include a “transfer” instruction with [Min Lamports](RESOURCES.md) to one of these Pubkeys: [Tip Payment Accounts](RESOURCES.md). Without this instruction, your transaction will be dropped.
  - Please do not add the tip address to the AddressLookupTable.
  - The endpoint for the Everstake SWQoS RPC is listed in [RPC Endpoints](RESOURCES.md).
-
+**Connection & Performance:**
+ - Both HTTP/1.1 and HTTP/2 use **persistent connections** by default — the TCP connection stays open and is reused for subsequent requests, eliminating handshake overhead.
+ - Our endpoints support **HTTP/2**, which provides multiplexing (multiple requests over a single connection) and header compression for better performance.
+ - For lowest latency over HTTP, use `http://` with HTTP/2 prior knowledge (h2c). See [rpc.rs](src/bin/rpc.rs) for an example.
+ - HTTPS endpoints also support HTTP/2 (negotiated via ALPN) with minimal encryption overhead.
 ### How it works
 1. You build and sign a Solana transaction in your client.
 2. You include a tip instruction (a simple `SystemProgram::transfer`) paying lamports to a designated Everstake SWQoS tip account [Tip Payment Accounts](RESOURCES.md).

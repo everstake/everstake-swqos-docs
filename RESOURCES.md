@@ -30,6 +30,7 @@
 - **AMS.**
 	- `https://ams-swqos.everstake.one`
   - `http://ams-swqos.everstake.one`
+  
 **Important**: Always use the correct protocol (http/https) for the appropriate port. For example, port 443 only works with HTTPS.
 
 **Min Lamports**
