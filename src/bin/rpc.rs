@@ -10,13 +10,41 @@ use {
     },
     solana_system_interface::instruction,
     solana_perf::packet::PACKET_DATA_SIZE,
+    std::time::Duration,
 };
 
 fn main() {
     let solana_client = RpcClient::new("https://api.mainnet-beta.solana.com"); 
+    
+    // HTTP/1.1 and HTTP/2 both use persistent connections by default.
+    // The TCP connection stays open and is reused for subsequent requests,
+    // eliminating handshake overhead on each transaction.
+    //
+    // Using HTTP/2 provides additional benefits:
+    // - Multiplexing: multiple requests over a single connection
+    // - Header compression (HPACK)
+    // - Better performance for high-frequency transaction sending
+    //
+    // For http:// endpoints, use `http2_prior_knowledge()` to enable HTTP/2 cleartext (h2c).
+    // For https:// endpoints, HTTP/2 is negotiated automatically via ALPN.
+    //
+    // HTTPS example (HTTP/2 negotiated automatically):
+    // let everstake_swqos_client = RpcClient::new("https://fra-swqos.everstake.one");
+    //
+    // HTTP/2 cleartext (h2c) - lowest latency, no encryption overhead:
+    let raw_client = reqwest::Client::builder()
+        .http2_prior_knowledge() // Required for HTTP/2 over plain HTTP (h2c)
+        .default_headers(solana_rpc_client::http_sender::HttpSender::default_headers())
+        .timeout(Duration::from_secs(30))
+        .pool_idle_timeout(Duration::from_secs(30)) // Keep connection alive for reuse
+        .build()
+        .expect("Failed to build raw rpc client");
 
     // TODO: use one of RESOURCES.md Everstake SWQoS RPC Endpoints
-    let everstake_swqos_client = RpcClient::new("https://fra-swqos.everstake.one");
+    let http_sender = solana_rpc_client::http_sender::HttpSender::new_with_client("http://fra-swqos.everstake.one", raw_client);
+    let rpc_client_config = solana_rpc_client::rpc_client::RpcClientConfig::with_commitment(solana_client::rpc_config::CommitmentConfig::confirmed());
+
+    let everstake_swqos_client = RpcClient::new_sender(http_sender, rpc_client_config);
 
     // TODO: use your keypair file path
     let sender = read_keypair_file("~/.config/solana/id.json").unwrap(); 
