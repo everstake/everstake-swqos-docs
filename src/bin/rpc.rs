@@ -3,6 +3,7 @@
 use {
     solana_client::rpc_client::RpcClient,
     solana_sdk::{
+        instruction::Instruction,
         signature::{Signer, read_keypair_file},
         message::Message,
         transaction::Transaction,
@@ -60,7 +61,16 @@ fn main() {
     let tip_instruction = instruction::transfer(&sender.pubkey(), &tip_pubkey, 500_000); 
     // Second: a self-transfer from sender to receiver (same pubkey) to demonstrate multiple instructions
     let self_transfer = instruction::transfer(&sender.pubkey(), &receiver, 1_000);
-    let message = Message::new(&[tip_instruction, self_transfer], Some(&sender.pubkey()));
+
+    // Optional: Add a memo to attach a unique identifier to your transaction
+    let memo_data = b"Invoice #12345"; // Replace with your unique identifier
+    let memo_instruction = Instruction {
+        program_id: pubkey!("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"),
+        accounts: vec![],
+        data: memo_data.to_vec(),
+    };
+
+    let message = Message::new(&[tip_instruction, self_transfer, memo_instruction], Some(&sender.pubkey()));
     let recent_blockhash = solana_client.get_latest_blockhash().unwrap();
     let transaction = Transaction::new(&[&sender], message, recent_blockhash);
 
