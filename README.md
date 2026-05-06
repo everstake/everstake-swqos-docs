@@ -19,7 +19,8 @@ The Everstake SWQoS RPC endpoint is a proxy for sending signed Solana transactio
  - Please do not add the tip address to the AddressLookupTable.
  - The endpoint for the Everstake SWQoS RPC is listed in [RPC Endpoints](RESOURCES.md). - **No preflight checks**: Everstake SWQoS does not perform preflight simulation — transactions are forwarded as-is. Ensure your transaction is valid before submitting.
  - **Default rate limit**: 10 transactions per second (TPS) per client.
- - **Memo (optional)**: You can attach a memo to your transaction to include an invoice number, order ID, or any custom reference. Memos are permanently recorded on-chain and visible in transaction logs and explorers, making it easy to reconcile payments with your internal systems. See [Payment with Memo](https://solana.com/docs/payments/send-payments/payment-with-memo) and the [rpc.rs](src/bin/rpc.rs) example for details.**Connection & Performance:**
+ - **Memo (optional)**: You can attach a memo to your transaction to include an invoice number, order ID, or any custom reference. Memos are permanently recorded on-chain and visible in transaction logs and explorers, making it easy to reconcile payments with your internal systems. See [Payment with Memo](https://solana.com/docs/payments/send-payments/payment-with-memo) and the [rpc.rs](src/bin/rpc.rs) example for details.
+ **Connection & Performance:**
  - Both HTTP/1.1 and HTTP/2 use **persistent connections** by default — the TCP connection stays open and is reused for subsequent requests, eliminating handshake overhead.
  - Our endpoints support **HTTP/2**, which provides multiplexing (multiple requests over a single connection) and header compression for better performance.
  - For lowest latency over HTTP, use `http://` with HTTP/2 prior knowledge (h2c). See [rpc.rs](src/bin/rpc.rs) for an example.
