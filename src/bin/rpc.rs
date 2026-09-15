@@ -10,7 +10,7 @@ use {
         pubkey,
     },
     solana_system_interface::instruction,
-    solana_perf::packet::PACKET_DATA_SIZE,
+    solana_message::v1::MAX_TRANSACTION_SIZE,
     std::time::Duration,
 };
 
@@ -74,13 +74,13 @@ fn main() {
     let recent_blockhash = solana_client.get_latest_blockhash().unwrap();
     let transaction = Transaction::new(&[&sender], message, recent_blockhash);
 
-    // Validate transaction size before sending
-    let serialized_tx = bincode::serialize(&transaction).expect("Failed to serialize transaction");
-    if serialized_tx.len() > PACKET_DATA_SIZE {
+    // Validate transaction size before sending.
+    let serialized_tx = wincode::serialize(&transaction).expect("Failed to serialize transaction");
+    if serialized_tx.len() > MAX_TRANSACTION_SIZE {
         eprintln!(
             "Transaction size {} exceeds maximum allowed size {}",
             serialized_tx.len(),
-            PACKET_DATA_SIZE
+            MAX_TRANSACTION_SIZE
         );
         return;
     }
