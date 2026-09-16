@@ -43,14 +43,18 @@ Your `Cargo.toml` needs the following:
 
 ```toml
 [dependencies]
-solana-client         = "3.0.0"
-solana-sdk            = "3.0.0"
-solana-system-interface = { version = "3.0.0", features = ["bincode"] }
-solana-perf           = "3.1.5"
-solana-rpc-client     = "3.1.5"
+solana-client         = "4.2.2"
+solana-sdk            = "4.0.0"
+solana-message        = "4.4.1"
+solana-system-interface = { version = "3.2.0", features = ["bincode"] }
+solana-transaction    = { version = "4.1.6", features = ["wincode"] }
+solana-rpc-client     = "4.2.2"
 reqwest               = "0.12"
-bincode               = "1.3"
+wincode               = "0.5.5"
 ```
+
+The `wincode` feature on `solana-transaction` is what implements `wincode`'s
+`SchemaWrite` for `Transaction`; without it the serialization call below will not compile.
 
 ---
 
@@ -199,17 +203,19 @@ let transaction = Transaction::new(&[&sender], message, recent_blockhash);
 
 ## Step 5 — Send the transaction
 
-Before sending, validate the serialized size to ensure it fits within Solana's maximum packet size (1232 bytes). Then submit via the Landing client.
+Before sending, validate the serialized size. The bound is `solana_message::v1::MAX_TRANSACTION_SIZE` (4096 bytes), the v1 limit introduced by [SIMD-0385](https://solana.com/upgrades/larger-transaction-sizes) — Everstake Landing forwards v1 transactions as-is, so you can submit them through the same endpoint. Legacy and v0 transactions, like the one built above, are still capped at 1232 bytes by the network itself; `RpcClient` base64-encodes the payload, which is required above 1232 bytes.
 
-[View in example → `src/bin/rpc.rs` lines 77–91](https://github.com/everstake/everstake-swqos-docs/blob/main/src/bin/rpc.rs#L77-L91)
+Serialization uses `wincode`, which replaces `bincode` in the Solana 4.x crates and produces byte-identical output.
+
+[View in example → `src/bin/rpc.rs` lines 77–97](https://github.com/everstake/everstake-swqos-docs/blob/main/src/bin/rpc.rs#L77-L97)
 
 ```rust
-let serialized_tx = bincode::serialize(&transaction).expect("Failed to serialize transaction");
-if serialized_tx.len() > PACKET_DATA_SIZE {
+let serialized_tx = wincode::serialize(&transaction).expect("Failed to serialize transaction");
+if serialized_tx.len() > MAX_TRANSACTION_SIZE {
     eprintln!(
         "Transaction size {} exceeds maximum allowed size {}",
         serialized_tx.len(),
-        PACKET_DATA_SIZE
+        MAX_TRANSACTION_SIZE
     );
     return;
 }
