@@ -85,7 +85,7 @@ let raw_client = reqwest::Client::builder()
     .expect("Failed to build raw rpc client");
 
 let http_sender = solana_rpc_client::http_sender::HttpSender::new_with_client(
-    "http://main-swqos.everstake.one",  // Main Cloudflare endpoint
+    "http://main-swqos.everstake.com",  // Main Cloudflare endpoint
     raw_client,
 );
 let rpc_client_config = solana_rpc_client::rpc_client::RpcClientConfig::with_commitment(
@@ -95,7 +95,7 @@ let rpc_client_config = solana_rpc_client::rpc_client::RpcClientConfig::with_com
 let everstake_landing_client = RpcClient::new_sender(http_sender, rpc_client_config);
 ```
 
-**Choosing an endpoint:** Use the **Main Cloudflare** endpoint (`http://main-swqos.everstake.one` / `https://main-swqos.everstake.one`)
+**Choosing an endpoint:** Use the **Main Cloudflare** endpoint (`http://main-swqos.everstake.com` / `https://main-swqos.everstake.com`)
 **HTTP vs HTTPS:**
 - `http://` with `http2_prior_knowledge()` — lowest latency, no TLS overhead (recommended)
 - `https://` — HTTP/2 negotiated automatically via ALPN, slight TLS overhead
