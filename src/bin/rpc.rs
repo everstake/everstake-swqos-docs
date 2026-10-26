@@ -30,7 +30,7 @@ fn main() {
     // For https:// endpoints, HTTP/2 is negotiated automatically via ALPN.
     //
     // HTTPS example (HTTP/2 negotiated automatically):
-    // let everstake_landing_client = RpcClient::new("https://fra-swqos.everstake.one");
+    // let everstake_landing_client = RpcClient::new("https://fra-swqos.everstake.com");
     //
     // HTTP/2 cleartext (h2c) - lowest latency, no encryption overhead:
     let raw_client = reqwest::Client::builder()
@@ -42,7 +42,7 @@ fn main() {
         .expect("Failed to build raw rpc client");
 
     // TODO: use one of RESOURCES.md Everstake Landing RPC Endpoints
-    let http_sender = solana_rpc_client::http_sender::HttpSender::new_with_client("http://fra-swqos.everstake.one", raw_client);
+    let http_sender = solana_rpc_client::http_sender::HttpSender::new_with_client("http://fra-swqos.everstake.com", raw_client);
     let rpc_client_config = solana_rpc_client::rpc_client::RpcClientConfig::with_commitment(solana_client::rpc_config::CommitmentConfig::confirmed());
 
     let everstake_landing_client = RpcClient::new_sender(http_sender, rpc_client_config);

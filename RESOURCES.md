@@ -13,31 +13,31 @@
 
 **Everstake Landing RPC Endpoints**
 - **Main Cloudflare**
-  - `https://main-swqos.everstake.one`
-  - `http://main-swqos.everstake.one`
+  - `https://main-swqos.everstake.com`
+  - `http://main-swqos.everstake.com`
 - **FRA.**
-  - `https://fra-swqos.everstake.one`
-	- `http://fra-swqos.everstake.one`
+  - `https://fra-swqos.everstake.com`
+	- `http://fra-swqos.everstake.com`
 
 - **NY.**
-	- `https://ny-swqos.everstake.one`
-	- `http://ny-swqos.everstake.one`
+	- `https://ny-swqos.everstake.com`
+	- `http://ny-swqos.everstake.com`
 
 - **TYO.**
-	- `https://tyo-swqos.everstake.one`
-  - `http://tyo-swqos.everstake.one`
+	- `https://tyo-swqos.everstake.com`
+  - `http://tyo-swqos.everstake.com`
 
 - **AMS.**
-	- `https://ams-swqos.everstake.one`
-  - `http://ams-swqos.everstake.one`
+	- `https://ams-swqos.everstake.com`
+  - `http://ams-swqos.everstake.com`
   
 - **SGP.**
-  - `https://sgp-swqos.everstake.one`
-  - `http://sgp-swqos.everstake.one`
+  - `https://sgp-swqos.everstake.com`
+  - `http://sgp-swqos.everstake.com`
   
 - **LON.**
-  - `https://lon-swqos.everstake.one`
-  - `http://lon-swqos.everstake.one`
+  - `https://lon-swqos.everstake.com`
+  - `http://lon-swqos.everstake.com`
   
 **Important**: Always use the correct protocol (http/https) for the appropriate port. For example, port 443 only works with HTTPS.
 
